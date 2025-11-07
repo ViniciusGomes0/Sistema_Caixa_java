@@ -20,42 +20,83 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int opcao;
-        System.out.println("|Cadastro|");
-        System.out.println("Digite seu nome: ");
+
+        // Cadastro inicial
+        System.out.println("| CADASTRO |");
+        System.out.print("Digite seu nome: ");
         String cadastro = sc.nextLine();
-        System.out.println("Digite sua senha: ");
+        System.out.print("Digite sua senha (somente números): ");
         int password = sc.nextInt();
 
-        System.out.println("\nOlá, serei seu assistente!");
-        System.out.print("Digite o valor do produto: ");
+        System.out.println("\nOlá, " + cadastro + "! Serei seu assistente virtual.");
+        System.out.print("Digite o valor do produto: R$ ");
         double valorProduto = sc.nextDouble();
 
-        System.out.print("Digite o valor entregue pelo cliente: ");
-        double valorPago = sc.nextDouble();
+        System.out.println("\nEscolha a forma de pagamento:");
+        System.out.println("[1] Débito");
+        System.out.println("[2] PIX");
+        System.out.println("[3] Crédito");
+        System.out.println("[4] Dinheiro");
+        System.out.print("Opção: ");
+        int pagamento = sc.nextInt();
 
-        if (valorPago < valorProduto) {
-            System.out.println("O cliente entregou valores errados para efetuar o pagamento.");
-        } else {
-            Caixa caixa = new Caixa(valorProduto, valorPago);
-            double troco = caixa.calcularTroco();
-            System.out.println("O troco a ser entregue é: R$ " + troco);
+        switch (pagamento) {
+            case 1 -> {
+                System.out.print("Digite o valor na maquininha (R$): ");
+                double maquininha = sc.nextDouble();
+                System.out.print("Digite a senha do cartão: ");
+                int cartao = sc.nextInt();
+                System.out.println("Pagamento de R$" + maquininha + " aprovado no débito!");
+            }
+
+            case 2 -> {
+                System.out.print("Digite o valor do PIX (R$): ");
+                double valorPix = sc.nextDouble();
+                System.out.print("Digite a chave PIX (número ou CPF): ");
+                String chavePix = sc.next();
+                System.out.println("PIX de R$" + valorPix + " enviado para " + chavePix + " com sucesso!");
+            }
+
+            case 3 -> {
+                System.out.print("Digite o valor total no crédito (R$): ");
+                double valorCredito = sc.nextDouble();
+                System.out.print("Digite o número de parcelas: ");
+                int parcelas = sc.nextInt();
+                System.out.println("Pagamento em " + parcelas + "x de R$" + (valorCredito / parcelas) + " aprovado!");
+            }
+
+            case 4 -> {
+                System.out.print("Digite o valor entregue pelo cliente: R$ ");
+                double valorPago = sc.nextDouble();
+
+                if (valorPago < valorProduto) {
+                    System.out.println("O cliente entregou um valor insuficiente.");
+                } else {
+                    Caixa caixa = new Caixa(valorProduto, valorPago);
+                    double troco = caixa.calcularTroco();
+                    System.out.println("Troco a ser entregue: R$ " + troco);
+                }
+            }
+
+            default -> System.out.println("Opção de pagamento inválida!");
         }
 
+        // Menu de operações
         do {
-            System.out.println("\nDeseja efetuar alguma outra operação?");
-            System.out.println("1 - Registrar nota fiscal");
-            System.out.println("2 - Cadastrar produto");
-            System.out.println("3 - Cadastrar novo usuário");
-            System.out.println("4 - Tirar orçamento");
-            System.out.println("5 - Fechar programa");
+            System.out.println("\n| MENU DE OPERAÇÕES |");
+            System.out.println("1 - Registrar Nota Fiscal");
+            System.out.println("2 - Cadastrar Produto");
+            System.out.println("3 - Cadastrar Novo Usuário");
+            System.out.println("4 - Tirar Orçamento");
+            System.out.println("5 - Fechar Programa");
             System.out.print("Escolha uma opção: ");
 
             opcao = sc.nextInt();
-            sc.nextLine(); // Limpa o buffer
+            sc.nextLine(); // limpa o buffer
 
             switch (opcao) {
                 case 1 -> {
-                    System.out.print("Digite o valor da NF: ");
+                    System.out.print("Digite o valor da NF: R$ ");
                     double NF_valor = sc.nextDouble();
                     System.out.print("Digite o número da NF: ");
                     int numero_NF = sc.nextInt();
@@ -68,10 +109,10 @@ public class Main {
                     System.out.print("Digite o nome do produto: ");
                     String nomeProduto = sc.nextLine();
 
-                    System.out.print("Digite o imposto (051) dentro de SP ou (054) fora de SP: ");
+                    System.out.print("Digite o imposto (051 dentro de SP ou 054 fora de SP): ");
                     int imposto = sc.nextInt();
 
-                    System.out.print("Digite o preço do produto: ");
+                    System.out.print("Digite o preço do produto: R$ ");
                     double preco = sc.nextDouble();
                     sc.nextLine();
 
@@ -100,6 +141,7 @@ public class Main {
                 }
 
                 case 5 -> System.out.println("Encerrando o programa...");
+
                 default -> System.out.println("Opção inválida, tente novamente!");
             }
 
